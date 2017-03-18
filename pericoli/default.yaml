@@ -1,0 +1,149 @@
+## from https://github.com/tangrams/tangram-sandbox/commit/5204749a5d4fc2d21eba39a25eafcbbc799cf114
+## 
+
+
+import: 
+   # - https://tangrams.github.io/blocks/global.yaml
+   # - https://tangrams.github.io/blocks/filter/height.yaml
+   # - THESE HAVE BEEN ADDED AT THE END of this file
+  
+sources:
+    osm:
+        type: TopoJSON
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson?api_key=vector-tiles-JUsa0Gc
+        max_zoom: 16
+
+cameras:
+    cam:
+        type: perspective
+        # vanishing_point: [0, -500]
+
+lights:
+    dir:
+        type: directional
+        direction: [.1, .5, -1]
+        diffuse: .7
+        ambient: .5
+
+layers:
+    water:
+        data: { source: osm }
+        draw:
+            water:
+                order: global.order
+                color: '#353535'
+    earth:
+        data: { source: osm }
+        draw:
+            earth:
+                order: global.order
+                color: '#555'
+    landuse:
+        data: { source: osm }
+        draw:
+            landuse:
+                order: global.order
+                color: '#666'
+    roads:
+        data: { source: osm }
+        filter: { not: { kind: [rail, ferry] } }
+        draw:
+            roads:
+                order: global.order
+                color: [0.988, 0.988, 0.988]
+                width: [[7,0.0px], [10, .5px], [15, .75px], [17, 5m]]
+        highway:
+            filter: { kind: highway }
+            draw:
+                roads:
+                    order: global.order
+                    width: [[8,0px], [8,.25px], [11, 1.5px], [14, 2px], [16, 4px], [17, 10m]]
+            link:
+                filter: { is_link: true } # on- and off-ramps, etc
+                draw:
+                    roads:
+                        width: [[8,0px], [14, 3px], [16, 5px], [18, 10m]]
+                tunnel-link:
+                    filter: {is_tunnel: true, $zoom: {min: 13} }
+        tunnel:
+            filter: {is_tunnel: true }
+            draw:
+                roads:
+                    order: global.order
+    buildings:
+        data: { source: osm }
+        draw:
+            buildings:
+                order: global.order
+                color: '#999'
+                extrude: true
+styles:
+    water:
+        base: polygons
+    earth:
+        base: polygons
+    landuse:
+        base: polygons
+    roads:
+        base: lines
+        lighting: false
+    buildings:
+        base: polygons
+mix: [filter-height]
+
+styles:
+    filter-height:
+        doc:
+            author: 
+                name: Peter Richardson
+                twitter: meetar
+            version: 0.0.1
+            tangram-version: 0.0.7
+            licence: MIT
+            description: |  
+                Adds a dark gradiant to the geometries conform they approach to height 0.
+            examples:
+                default:
+                    url: https://tangrams.github.io/tangram-sandbox/styles/default.yaml
+                    img: https://tangrams.github.io/tangram-sandbox/styles/default.png
+                    lines: 88
+        shaders:
+            blocks:
+                color: |
+                    color.rgb *= min((worldPosition().z*.001 + .5),1.);
+
+# global
+global:
+    order_add_9: function () { return (feature.sort_rank * 20 + 9); }
+    order_add_8: function () { return (feature.sort_rank * 20 + 8); }
+    order_add_7: function () { return (feature.sort_rank * 20 + 7); }
+    order_add_6: function () { return (feature.sort_rank * 20 + 6); }
+    order_add_5: function () { return (feature.sort_rank * 20 + 5); }
+    order_add_4: function () { return (feature.sort_rank * 20 + 4); }
+    order_add_3: function () { return (feature.sort_rank * 20 + 3); }
+    order_add_2: function () { return (feature.sort_rank * 20 + 2); }
+    order_add_1: function () { return (feature.sort_rank * 20 + 1); }
+    order-over: function () { return feature.sort_rank * 20 + 1; }
+    order-top: function () { return feature.sort_rank * 20 + 1; }
+    order: function () { return (feature.sort_rank * 20); }
+    order-bottom: function () { return feature.sort_rank * 20 - 1; }
+    order-under: function () { return feature.sort_rank * 20 - 1; }
+    order_sub_1: function () { return (feature.sort_rank * 20 - 1); }
+    order_sub_2: function () { return (feature.sort_rank * 20 - 2); }
+    order_sub_3: function () { return (feature.sort_rank * 20 - 3); }
+    order_sub_4: function () { return (feature.sort_rank * 20 - 4); }
+    order_sub_5: function () { return (feature.sort_rank * 20 - 5); }
+    order_sub_6: function () { return (feature.sort_rank * 20 - 6); }
+    order_sub_7: function () { return (feature.sort_rank * 20 - 7); }
+    order_sub_8: function () { return (feature.sort_rank * 20 - 8); }
+    order_sub_9: function () { return (feature.sort_rank * 20 - 9); }
+
+    pseudoRandomColor: |
+        function() {
+            return [
+                0.7 * (parseInt(feature.id, 16) / 100 % 1),     // jshint ignore:line
+                0.7 * (parseInt(feature.id, 16) / 10000 % 1),   // jshint ignore:line
+                0.7 * (parseInt(feature.id, 16) / 1000000 % 1), // jshint ignore:line
+                1
+            ];
+        }
