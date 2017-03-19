@@ -13,11 +13,11 @@ textures:
     hatch_0: 
         url: http://i.imgur.com/jyQL7UN.png
     hatch_1: 
-        url: imgs/hatch_1.png
+        url: hatch_1.png
     hatch_2: 
-        url: imgs/hatch_2.png
+        url: hatch_2.png
     sem:
-        url: imgs/sem-pericoli.png
+        url: sem-pericoli.png
 
 scene:
     background:
@@ -26,6 +26,8 @@ scene:
 cameras:
     cam:
         type: isometric
+        fov: 10
+        vanishing_point: [-0, -250]
 
 lights:
     dir:
