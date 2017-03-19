@@ -26,8 +26,6 @@ scene:
 cameras:
     cam:
         type: isometric
-        fov: 10
-        vanishing_point: [-0, -250]
 
 lights:
     dir:
