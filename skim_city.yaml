@@ -3,6 +3,9 @@
 
 import:
     - https://mapzen-assets.s3.amazonaws.com/resources/demo.yaml
+    - https://tangrams.github.io/blocks/filter/grain.yaml
+    - https://tangrams.github.io/blocks/patterns/grid.yaml
+
 
 fonts:
     MS Sans Serif:
@@ -238,7 +241,9 @@ layers:
         draw:
             polygons:
                 order: 1
-                color: '#555555'
+                color: '#BF9F4E'
+                mix: grid
+                
     # landuse:
     #     data: { source: mapzen }
     #     draw:
@@ -299,4 +304,11 @@ layers:
 styles:
     dashed:
         base: lines
-        dash: [2,1]
+        dash: [2,9]
+    grid:
+        base: polygons
+        mix: [patterns-grid, filter-grain]
+        shaders:
+            blocks:
+                color: |
+                    color.rgb += vec3(.2)*tileGrid();
