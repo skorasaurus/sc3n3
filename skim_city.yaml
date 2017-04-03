@@ -2,7 +2,6 @@
 # 
 
 import:
-    - https://mapzen-assets.s3.amazonaws.com/resources/demo.yaml
     - https://tangrams.github.io/blocks/filter/grain.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
 
@@ -234,9 +233,8 @@ layers:
         data: { source: mapzen }
         draw:
             polygons:
-		
                 order: 2
-                color: '#394dcd'
+                color: '#1E24F0'
     earth:
         data: { source: mapzen }
         draw:
@@ -264,6 +262,7 @@ layers:
                 order: 5
                 color: [1.000, 1.000, 1.000, 1.00]
                 width: 1.5px
+                
             text:
                 font:
                     family: MS Sans Serif
@@ -305,11 +304,29 @@ layers:
 styles:
     dashed:
         base: lines
-        dash: [2,9]
+        dash: [1.5,4]
     grid:
         base: polygons
         mix: [patterns-grid, filter-grain]
         shaders:
             blocks:
-                color: |
-                    color.rgb += vec3(.2)*tileGrid();
+                global: |
+                    // Fragment Shader function that makes the grid and dust efect
+                    // on screen space 
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    vec3 BluePrint(){
+                        vec2 pos = gl_FragCoord.xy;
+                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                        // Interpolate circularly (+ dust FBn noise) this two colors
+                        //vec3 background = mix(  vec3(0.,0.5,0.8), // Cyan
+                        //                        vec3(0.,0.0,0.3), // Dark blue
+                        //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
+
+                        vec3 background = -vec3(0.5) * (dot(st,st) + (fbm(pos*0.6)*0.1));
+                        if (grid(pos,0.01)) { background += vec3(0.11); }
+                        if (grid(pos,0.1)) { background += vec3(0.02); }
+                        return background;
+                    }
+                    #endif
+                filter: |
+                    color.rgb += BluePrint();
