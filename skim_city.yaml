@@ -1,5 +1,5 @@
-# https://mapzen.com/api/scenes/22/420/resources/basic.yaml
-# burrito justice
+# Heavily based off of https://mapzen.com/api/scenes/22/420/resources/basic.yaml by burrito justice
+# 
 
 import:
     - https://mapzen-assets.s3.amazonaws.com/resources/demo.yaml
@@ -19,7 +19,7 @@ sources:
         type: TopoJSON
         url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
         url_params: 
-            api_key: global.sdk_mapzen_api_key
+            api_key: vector-tiles-Nhm6Mkg
 layers:
     _boundaries:
         data:
@@ -234,15 +234,16 @@ layers:
         data: { source: mapzen }
         draw:
             polygons:
+		
                 order: 2
                 color: '#394dcd'
     earth:
         data: { source: mapzen }
         draw:
-            polygons:
+            grid:
                 order: 1
                 color: '#BF9F4E'
-                mix: grid
+                
                 
     # landuse:
     #     data: { source: mapzen }
