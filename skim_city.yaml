@@ -4,7 +4,8 @@
 import:
     - https://tangrams.github.io/blocks/filter/grain.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
-
+# combined space and patterns-grid is blow 
+# https://gist.githubusercontent.com/skorasaurus/a89e8d07f9e98fc4004fee14427f91aa/raw/3ae794891c7559fa050cc138cc72082d2ce54439/patterns-grid.yaml
 
 fonts:
     MS Sans Serif:
@@ -257,7 +258,7 @@ layers:
                 order: 4
                 # color: '#dfe300'
                 color: grey
-                width: [[7,1px], [10,1px],[12,1px], [15,2px], [15,3px], [17,4px]]
+                width: [[7,1px], [10,1px],[12,1px], [15,2px], [15,3px], [17,5.5px]]
             dashed:
                 order: 5
                 color: [1.000, 1.000, 1.000, 1.00]
@@ -311,4 +312,18 @@ styles:
         shaders:
             blocks:
                 color: |
-                    color.rgb += vec3(0.32)*tileGrid(.91);
+                    color.rgb += vec3(0.33)*tileGrid(.91);
+                global: |
+                        float tileGrid (float res) {
+                        vec2 st = getTileCoords()*100.*res;
+                        float pct = 30.0;
+                        float press = 0.4+(1.0-fract(u_map_position.z))*0.1;
+                        if (grid(st,0.01,press)) pct += 0.5;
+                        if (grid(st,0.1,press)) pct += 0.1;
+                        return pct;
+                             }
+                    // Draw two grid that smoothly interpolates acording to zooms
+                        float tileGrid() { 
+                        return mix(tileGrid(1.),tileGrid(2.),fract(u_map_position.z)); 
+                             }
+                    
