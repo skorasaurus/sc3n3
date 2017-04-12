@@ -326,7 +326,9 @@ styles:
 
                         vec3 background = -vec3(0.5) * (dot(st,st) + (fbm(pos*0.)*0.1));
                         if (grid(pos,0.01)) { background += vec3(0.015); }
-                        if (grid(pos,0.1)) { background += vec3(0.02); }
+                        // vec3 color controls
+                        // grid linecolors
+                        if (grid(pos,0.1)) { background += vec3(0.137,0.765,0.153); }
                         return background;
                     }
                     #endif
