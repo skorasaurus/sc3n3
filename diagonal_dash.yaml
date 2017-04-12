@@ -1,0 +1,45 @@
+#trying to get a diagonal dash to work
+import:
+    - https://tangrams.github.io/blocks/polygons/diagonal-dash-full.yaml
+
+
+sources:
+    mapzen:
+        type: TopoJSON
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
+        url_params: 
+            api_key: vector-tiles-Nhm6Mkg
+
+layers:
+    earth:
+        data: { source: mapzen }
+        draw:
+            polygons:
+                order: 0
+                color: grey
+    water:
+        data: { source: mapzen }
+        draw:
+            polygons:
+                order: 1
+                color: lightblue
+            mystyle:
+                order: 2
+                color: '#BF9F4E'
+
+styles:
+    mystyle:
+        base: polygons
+        doc:
+            licence: MIT
+            tangram-version: 0.0.7
+            version: 0.0.1
+        shaders:
+            defines:
+                DASH_BACKGROUND_COLOR: vec3(0.286,0.605,0.831)
+                DASH_COLOR: vec3(0.286,0.605,0.831)
+                DASH_SIZE: 0.4
+            blocks:
+               color: color.rgb = mix(DASH_BACKGROUND_COLOR, 
+                DASH_COLOR, 
+                DASH_TYPE( DASH_SIZE, dashDF(DASH_TILE_STYLE(getTileCoords()*DASH_SCALE,3.))) );
