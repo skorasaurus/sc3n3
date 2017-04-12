@@ -4,6 +4,7 @@
 import:
     - https://tangrams.github.io/blocks/filter/grain.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
+    - https://tangrams.github.io/blocks/generative/fbm.yaml
 # combined space and patterns-grid is blow 
 # https://gist.githubusercontent.com/skorasaurus/a89e8d07f9e98fc4004fee14427f91aa/raw/3ae794891c7559fa050cc138cc72082d2ce54439/patterns-grid.yaml
 
@@ -239,7 +240,7 @@ layers:
     earth:
         data: { source: mapzen }
         draw:
-            grid:
+            gridstyle:
                 order: 1
                 color: '#BF9F4E'
                 
@@ -306,24 +307,29 @@ styles:
     dashed:
         base: lines
         dash: [1.5,4]
-    grid:
+    gridstyle:
         base: polygons
-        mix: [patterns-grid]
+        mix: [patterns-grid, generative-fbm]
         shaders:
             blocks:
-                color: |
-                    color.rgb += vec3(0.33)*tileGrid(.91);
                 global: |
-                        float tileGrid (float res) {
-                        vec2 st = getTileCoords()*100.*res;
-                        float pct = 30.0;
-                        float press = 0.4+(1.0-fract(u_map_position.z))*0.1;
-                        if (grid(st,0.01,press)) pct += 0.5;
-                        if (grid(st,0.1,press)) pct += 0.1;
-                        return pct;
-                             }
-                    // Draw two grid that smoothly interpolates acording to zooms
-                        float tileGrid() { 
-                        return mix(tileGrid(1.),tileGrid(2.),fract(u_map_position.z)); 
-                             }
+                    // Fragment Shader function that makes the grid and dust efect
+                    // on screen space 
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    vec3 BluePrint(){
+                        vec2 pos = gl_FragCoord.xy;
+                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                        // Interpolate circularly (+ dust FBn noise) this two colors
+                        //vec3 background = mix(  vec3(0.,0.5,0.8), // Cyan
+                        //                        vec3(0.,0.0,0.3), // Dark blue
+                        //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
+
+                        vec3 background = -vec3(0.5) * (dot(st,st) + (fbm(pos*0.)*0.1));
+                        if (grid(pos,0.01)) { background += vec3(0.015); }
+                        if (grid(pos,0.1)) { background += vec3(0.02); }
+                        return background;
+                    }
+                    #endif
+                filter: |
+                    color.rgb += BluePrint();
                     
