@@ -242,7 +242,7 @@ layers:
         draw:
             gridstyle:
                 order: 1
-                color: '#BF9F4E'
+                color: [0.665,0.431,0.070]
                 
                 
     # landuse:
@@ -324,11 +324,9 @@ styles:
                         //                        vec3(0.,0.0,0.3), // Dark blue
                         //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
 
-                        vec3 background = -vec3(0.5) * (dot(st,st) + (fbm(pos*0.)*0.1));
-                        if (grid(pos,0.01)) { background += vec3(0.015); }
-                        // vec3 color controls
-                        // grid linecolors
-                        if (grid(pos,0.1)) { background += vec3(0.137,0.765,0.153); }
+                        vec3 background = -vec3(.0) * (dot(st,st) + (fbm(pos*0.)*0.1));
+                        if (grid(pos,0.02)) { background += vec3(0.665,0.431,0.70); }
+                       // if (grid(pos,0.2)) { background += vec3(0.665,0.431,0.070); }
                         return background;
                     }
                     #endif
