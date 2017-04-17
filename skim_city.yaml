@@ -242,7 +242,7 @@ layers:
         draw:
             gridstyle:
                 order: 1
-                color: [0.665,0.431,0.070]
+                color: '#A89A59'
                 
                 
     # landuse:
@@ -309,7 +309,7 @@ styles:
         dash: [1.5,4]
     gridstyle:
         base: polygons
-        mix: [patterns-grid, generative-fbm]
+        mix: [patterns-grid]
         shaders:
             blocks:
                 global: |
@@ -318,14 +318,14 @@ styles:
                     #ifdef TANGRAM_FRAGMENT_SHADER
                     vec3 BluePrint(){
                         vec2 pos = gl_FragCoord.xy;
-                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                      
                         // Interpolate circularly (+ dust FBn noise) this two colors
                         //vec3 background = mix(  vec3(0.,0.5,0.8), // Cyan
                         //                        vec3(0.,0.0,0.3), // Dark blue
                         //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
 
-                        vec3 background = -vec3(.0) * (dot(st,st) + (fbm(pos*0.)*0.1));
-                        if (grid(pos,0.02)) { background += vec3(0.665,0.431,0.70); }
+                        vec3 background = vec3(.00);
+                        if (grid(pos,0.02)) { background += vec3(0.965,0.11,0.0); }
                        // if (grid(pos,0.2)) { background += vec3(0.665,0.431,0.070); }
                         return background;
                     }
