@@ -1,0 +1,120 @@
+
+# majority of code is from @patriciogv
+import:
+    - default.yaml
+    - https://tangrams.github.io/blocks/color/tools.yaml
+    - https://tangrams.github.io/blocks/generative/fbm.yaml
+    - https://tangrams.github.io/blocks/patterns/grid.yaml
+    - https://tangrams.github.io/blocks/functions/map.yaml
+    - https://tangrams.github.io/blocks/geometry/dynamic-width.yaml
+    - https://tangrams.github.io/blocks/geometry/normal.yaml
+    - https://tangrams.github.io/blocks/lines/outline.yaml
+
+scene:
+    background:
+        color: [0.,0.5,0.8]
+
+layers:
+    water:
+        draw:
+            water:
+                color: '#176BCB'
+    earth:
+        draw:
+            lines:
+                order: global.order-top
+                width: 1.5px
+                color: '#C1D3DC' 
+            earth:
+                color: '#007FD4'
+    landuse:
+        draw:
+            landuse:
+                order: global.order
+                width: 0.5px
+                color: white
+    roads:
+        draw:
+            roads:
+                color: '#176BCB'
+    buildings:
+        draw:
+            buildings:
+                color: '#007FD4'
+                extrude: true
+            baseline:
+                style: lines
+                order: global.order
+                width: [[12, .1px], [18, 0.5m]]
+                color: '#C1D3DC'
+            buildingsLines:
+                order: global.order-top
+                color: white
+                width: [[12, .1px], [14, 0.1px], [15, 0.5px], [17, 1.0px], [18, 1px]]
+                extrude: true
+
+styles:
+    blueprint:
+        base: polygons
+        mix: [color-tools, generative-fbm, patterns-grid]
+        shaders:
+            blocks:
+                global: |
+                    // Fragment Shader function that makes the grid and dust efect
+                    // on screen space 
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    vec3 BluePrint(){
+                        vec2 pos = gl_FragCoord.xy;
+                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                        // Interpolate circularly (+ dust FBn noise) this two colors
+                        //vec3 background = mix(  vec3(0.,0.5,0.8), // Cyan
+                        //                        vec3(0.,0.0,0.3), // Dark blue
+                        //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
+
+                        vec3 gridcolor = -vec3(0.5) * (dot(st,st) + (fbm(pos*0.6)*0.91));
+                        if (grid(pos,0.91)) { gridcolor  += vec3(0.5); }                  
+                        return gridcolor ;
+                    }
+                    #endif
+                filter: |
+                    color.rgb += BluePrint();
+                    // add  + tileGrid(); to above line for grid lines 
+    earth:
+        base: polygons
+        mix: blueprint
+    water:
+        base: polygons
+        mix: blueprint
+    landuse:
+        base: lines
+        mix: blueprint
+    buildings:
+        base: polygons
+        mix: [blueprint, geometry-normal]
+        texcoords: true
+        shaders:
+            blocks:
+                color: |
+                    if (isWall()) {
+                        // Put lines at the edge of walls
+                        float lineWidth = 0.003*(u_tile_origin.z/20.0);
+                        color.rgb = mix(color.rgb,
+                                        vec3(1.),
+                                        1.0-(step(lineWidth,v_texcoord.x)-step(1.0-lineWidth,v_texcoord.x)));
+                    }
+    buildingsLines:
+        base: lines
+        mix: [blueprint, geometry-dynamic-width]
+        shaders:
+            blocks:
+                color: |
+                    color.rgb = mix(vec3(0.090,0.420,0.796),
+                                    vec3(1.),
+                                    min(max(0.01,(u_map_position.z-13.))/3.,1.0) );
+    roads:
+        base: lines
+        mix: [blueprint, lines-outline]
+        shaders:
+            defines:
+                OUTLINE_WIDTH: 0.15
+                OUTLINE_COLOR: vec3(0.286,0.605,0.831)
