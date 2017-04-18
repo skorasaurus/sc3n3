@@ -306,6 +306,13 @@ layers:
             draw:
                 roads:
                     order: 6
+    buildings:
+        data: { source: mapzen }
+        draw:
+            polygons:
+                order: 2
+                color: '#F15E42'
+                extrude: true
  
 styles:
     dashed:
