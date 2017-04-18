@@ -1,6 +1,10 @@
 # Heavily based off of https://mapzen.com/api/scenes/22/420/resources/basic.yaml by burrito justice
 # 
 
+scene:
+    background:
+        color: black
+
 import:
     - https://tangrams.github.io/blocks/filter/grain.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
@@ -242,7 +246,7 @@ layers:
         draw:
             gridstyle:
                 order: 1
-                color: '#A89A59'
+                color: [0.706, 0.655, 0.369, 1.00]
                 
                 
     # landuse:
@@ -259,11 +263,11 @@ layers:
                 order: 4
                 # color: '#dfe300'
                 color: grey
-                width: [[7,1px], [10,1px],[12,1px], [15,2px], [15,3px], [17,5.5px]]
+                width: [[7,1px], [10,1px],[12,1px], [15,2px], [15,8px], [17,9.5px]]
             dashed:
                 order: 5
                 color: [1.000, 1.000, 1.000, 1.00]
-                width: 1.5px
+                width: 1.75px
                 
             text:
                 font:
@@ -324,9 +328,9 @@ styles:
                         //                        vec3(0.,0.0,0.3), // Dark blue
                         //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
 
-                        vec3 background = vec3(.00);
-                        if (grid(pos,0.02)) { background += vec3(0.965,0.11,0.0); }
-                       // if (grid(pos,0.2)) { background += vec3(0.665,0.431,0.070); }
+                        vec3 background = vec3(.100);
+                        if (grid(pos,0.025)) { background += vec3(-0.255,-0.285,-0.80); }
+                        //if (grid(pos,0.0175)) { background += vec3(0.9,0.01,0.0); }
                         return background;
                     }
                     #endif
