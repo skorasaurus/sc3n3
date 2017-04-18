@@ -6,6 +6,7 @@ scene:
         color: black
 
 import:
+    - https://tangrams.github.io/blocks/lines/outline.yaml
     - https://tangrams.github.io/blocks/filter/grain.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
     - https://tangrams.github.io/blocks/generative/fbm.yaml
@@ -259,7 +260,8 @@ layers:
         data: { source: mapzen}
         filter: { not: { kind: [rail, ferry] } }
         draw:
-            lines:
+            roadcasingstyle:
+                lines:
                 order: 4
                 # color: '#dfe300'
                 color: grey
@@ -344,3 +346,10 @@ styles:
                 filter: |
                     color.rgb += BluePrint();
                     
+    roadcasingstyle: 
+        base: lines
+        mix: lines-outline
+        shaders:
+            defines:
+                OUTLINE_WIDTH: 0.12
+                OUTLINE_COLOR: vec3(0.086,0.005,0.031)
