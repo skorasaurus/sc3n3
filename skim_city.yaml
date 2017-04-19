@@ -5,12 +5,16 @@ scene:
     background:
         color: black
 
+cameras:
+    camera1:
+        type: isometric
+
 import:
     - https://tangrams.github.io/blocks/lines/outline.yaml
     - https://tangrams.github.io/blocks/filter/grain.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
     - https://tangrams.github.io/blocks/generative/fbm.yaml
-# combined space and patterns-grid is blow 
+# combined space and patterns-grid is below 
 # https://gist.githubusercontent.com/skorasaurus/a89e8d07f9e98fc4004fee14427f91aa/raw/3ae794891c7559fa050cc138cc72082d2ce54439/patterns-grid.yaml
 
 fonts:
@@ -338,6 +342,7 @@ styles:
                         //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
 
                         vec3 background = vec3(.100);
+                        // number after pos sets; lower the number, more space in blocks 
                         if (grid(pos,0.025)) { background += vec3(-0.255,-0.285,-0.80); }
                         //if (grid(pos,0.0175)) { background += vec3(0.9,0.01,0.0); }
                         return background;
