@@ -1,0 +1,100 @@
+# Author @patriciogv - 2015
+
+import:
+    - default.yaml
+    - https://tangrams.github.io/blocks/color/tools.yaml
+    - https://tangrams.github.io/blocks/generative/fbm.yaml
+    - https://tangrams.github.io/blocks/patterns/grid.yaml
+    - https://tangrams.github.io/blocks/functions/map.yaml
+    - https://tangrams.github.io/blocks/geometry/dynamic-width.yaml
+    - https://tangrams.github.io/blocks/geometry/normal.yaml
+    - https://tangrams.github.io/blocks/lines/outline.yaml
+
+scene:
+    background:
+        color: [0.,0.5,0.8]
+
+layers:
+    water:
+        draw:
+            water:
+                color: '#176BCB'
+    earth:
+        draw:
+            lines:
+                order: global.order-top
+                width: 1.5px
+                color: '#C1D3DC' 
+            earth:
+                color: '#007FD4'
+    landuse:
+        draw:
+            landuse:
+                order: global.order
+                width: 0.5px
+                color: white
+    roads:
+        draw:
+            myroads:
+                color: '#176BCB'
+    buildings:
+        draw:
+            buildings:
+                color: '#007FD4'
+                extrude: true
+            baseline:
+                style: lines
+                order: global.order
+                width: [[12, .1px], [18, 0.5m]]
+                color: '#C1D3DC'
+            buildingsLines:
+                order: global.order-top
+                color: white
+                width: [[12, .1px], [14, 0.1px], [15, 0.5px], [17, 1.0px], [18, 1px]]
+                extrude: true
+
+styles:
+    blueprint:
+        base: polygons
+        mix: [color-tools, generative-fbm, patterns-grid]
+        shaders:
+            blocks:
+                global: |
+                    // Fragment Shader function that makes the grid and dust efect
+                    // on screen space 
+                    #ifdef TANGRAM_FRAGMENT_SHADER
+                    vec3 BluePrint(){
+                        vec2 pos = gl_FragCoord.xy;
+                        vec2 st = pos/u_resolution.xy-vec2(.5);
+                        // Interpolate circularly (+ dust FBn noise) this two colors
+                        //vec3 background = mix(  vec3(0.,0.5,0.8), // Cyan
+                        //                        vec3(0.,0.0,0.3), // Dark blue
+                        //                        dot(st,st) + (fbm(pos*0.6)*0.1) );
+
+                        vec3 background = -vec3(0.5) * (dot(st,st) + (fbm(pos*0.6)*0.1));
+                        if (grid(pos,0.01)) { background += vec3(0.05); }
+                        if (grid(pos,0.1)) { background += vec3(0.02); }
+                        return background;
+                    }
+                    #endif
+                filter: |
+                    color.rgb += BluePrint();
+    earth:
+        base: polygons
+        mix: blueprint
+    water:
+        base: polygons
+        mix: blueprint
+    landuse:
+        base: lines
+        mix: blueprint
+        
+
+    myroads:
+        base: lines
+        mix: [lines-outline]
+        shaders:
+            defines:
+                OUTLINE_WIDTH: 0.35
+                OUTLINE_COLOR: vec3(0.831, 0.675, 0.286)
+
