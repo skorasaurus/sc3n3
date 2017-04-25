@@ -1,0 +1,99 @@
+# Author @patriciogv - 2015, mostly
+import:
+    - https://tangrams.github.io/blocks/global.yaml
+    - https://tangrams.github.io/blocks/lines/chevron-full.yaml
+
+
+sources:
+    mapzen:
+        type: TopoJSON
+        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
+        url_params:
+            api_key: vector-tiles-Nhm6Mkg
+        max_zoom: 16
+
+cameras:
+    cam:
+        type: perspective
+        # vanishing_point: [0, -500]
+
+
+layers:
+    water:
+        data: { source: mapzen }
+        draw:
+            mywater:
+                order: global.order
+                color: '#353535'
+ # need to fix earth stuff; compare with default.yaml
+    earth: 
+        draw:
+            lines:
+                order: global.order-top
+                width: 1.5px
+                color: [0.227, 0.549, 0.710, 1.00] 
+            myearth:
+                color: '#007FD4'
+    landuse:
+        data: { source: mapzen }
+        draw:
+            landuse:
+                order: global.order
+                color: '#666'
+
+    roads:
+        data: { source: mapzen }
+        filter: { not: { kind: [rail, ferry] } }
+        draw:
+            mychevronroads:
+                order: global.order
+                # color is ignored b/c of chevron
+                # if you remove CHEVRON_COLOR; 
+                # the color because will be used
+                color: [0.910, 0.031, 0.031, 1.00]
+                width: [[7,0.0px], [10, .5px], [15, .75px], [17, 5m]]
+        highway:
+            filter: { kind: highway }
+            draw:
+                roads:
+                    order: global.order
+                    width: [[8,0px], [8,.25px], [11, 1.5px], [14, 2px], [16, 4px], [17, 10m]]
+            link:
+                filter: { is_link: true } # on- and off-ramps, etc
+                draw:
+                    roads:
+                        width: [[8,0px], [14, 3px], [16, 5px], [18, 10m]]
+                tunnel-link:
+                    filter: {is_tunnel: true, $zoom: {min: 13} }
+        tunnel:
+            filter: {is_tunnel: true }
+            draw:
+                roads:
+                    order: global.order
+    buildings:
+        data: { source: mapzen }
+        draw:
+            buildings:
+                order: global.order
+                color: '#999'
+                extrude: true
+styles:
+    mywater:
+        base: polygons
+    myearth:
+        base: polygons
+    landuse:
+        base: polygons
+    mychevronroads:
+        base: lines
+        mix: [lines-chevron]
+        shaders:
+            defines:
+                CHEVRON_SIZE: 1.020
+                CHEVRON_COLOR: vec3(0.063, 0.784, 0.212)
+                CHEVRON_ALPHA: 0.4
+                CHEVRON_SCALE: 1.9
+                CHEVRON_BACKGROUND_COLOR: vec3(0.565, 0.451, 0.545)
+    buildings:
+        base: polygons
+        mix: [filter-height]
