@@ -251,7 +251,7 @@ layers:
         draw:
             gridstyle:
                 order: 1
-                color: [0.706, 0.655, 0.369, 1.00]
+                color: '#9B854D'
                 
                 
     # landuse:
