@@ -4,9 +4,9 @@
 
 import:
     - https://tangrams.github.io/blocks/global.yaml
-    - https://tangrams.github.io/blocks/lines/glow-full.yaml
-    - https://tangrams.github.io/blocks/functions/map.yaml
-    - https://tangrams.github.io/blocks/geometry/normal.yaml
+    - https://tangrams.github.io/blocks/lines/glow.yaml
+    # - https://tangrams.github.io/blocks/lines/glow-full.yaml
+    # - https://tangrams.github.io/blocks/geometry/normal.yaml
     - https://tangrams.github.io/blocks/lines/outline.yaml
 
 
@@ -42,21 +42,21 @@ layers:
         draw:
             earth:
                 order: global.order
-                color: '#555'
+                color: [0.165, 0.165, 0.165, 1.00]
     landuse:
         data: { source: mapzen }
         draw:
             landuse:
                 order: global.order
-                color: '#666'
+                color: [0.231, 0.231, 0.231, 1.00]
     roads:
         data: { source: mapzen }
         filter: { not: { kind: [rail, ferry] } }
         draw:
-            roads:
+            theglowstyle:
                 order: global.order
-                color: [0.988, 0.988, 0.988]
-                width: [[7,0.0px], [10, .5px], [15, .75px], [17, 5m]]
+                color: [0.800, 0.047, 0.047, 1.00]
+                width: [[7,0.0px], [10, 9.5px], [15, .75px], [17, 25m]]
         highway:
             filter: { kind: highway }
             draw:
@@ -75,13 +75,6 @@ layers:
             draw:
                 roads:
                     order: global.order
-    buildings:
-        data: { source: mapzen }
-        draw:
-            buildings:
-                order: global.order
-                color: '#999'
-                extrude: true
 styles:
     water:
         base: polygons
@@ -92,10 +85,10 @@ styles:
     roads:
         base: lines
         lighting: false
-    buildings:
-        base: polygons
     theglowstyle:
         base: lines
+        mix: [lines-glow]
         shaders:
             defines:
-            GLOW_WIDTH: 0    
+            GLOW_WIDTH: 0.9
+            GLOW_BRIGHTNESS: 0.04
