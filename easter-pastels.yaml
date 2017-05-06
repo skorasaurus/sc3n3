@@ -1,7 +1,7 @@
 
 # majority of code is from @patriciogv
 import:
-    - default.yaml
+    - https://raw.githubusercontent.com/tangrams/tangram-sandbox/gh-pages/styles/default.yaml
     - https://tangrams.github.io/blocks/color/tools.yaml
     - https://tangrams.github.io/blocks/generative/fbm.yaml
     - https://tangrams.github.io/blocks/patterns/grid.yaml
