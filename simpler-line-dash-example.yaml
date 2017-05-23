@@ -85,7 +85,8 @@ layers:
                 order: global.order
                 color: [0.976, 0.988, 0.000, 1.00]
                 width: 4px
-                mix: lines-dash
+               # i DON'T need the commented line out below 
+               # mix: lines-dash
                 shaders:
                     define:
                 DASH_SCALE: 44
