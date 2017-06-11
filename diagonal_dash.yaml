@@ -1,4 +1,3 @@
-#trying to get a diagonal dash to work
 import:
     - https://tangrams.github.io/blocks/polygons/diagonal-dash-full.yaml
 
@@ -30,6 +29,7 @@ layers:
 styles:
     mystyle:
         base: polygons
+        mix: [polygons-diagonal-dash]
         doc:
             licence: MIT
             tangram-version: 0.0.7
@@ -37,7 +37,7 @@ styles:
         shaders:
             defines:
                 DASH_BACKGROUND_COLOR: vec3(0.286,0.605,0.831)
-                DASH_COLOR: vec3(0.286,0.605,0.831)
+                DASH_COLOR: vec3(0.612, 0.776, 0.906)
                 DASH_SIZE: 0.4
             blocks:
                color: color.rgb = mix(DASH_BACKGROUND_COLOR, 
