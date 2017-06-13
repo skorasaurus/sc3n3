@@ -9,16 +9,16 @@ copy and paste the code into https://mapzen.com/tangram/play
 
 Most of the code in here is not written from scratch by me rather I've just adapted code written by Patricio González Vivo of Mapzen, who deserves credit. 
 
-Some of these scenes also include workable examples of shader code that you can insert into a scene with less fuss (hopefully). 
+Some of these scenes will also include workable examples of shader code that you can insert into a scene with less fuss (hopefully). 
 
 Below are descriptions and direct links to them in Tangram Play as well so you can view and edit them. 
 
 Descriptions:
 
-diagonal_dash: [viewable example]() Applies a diagonal dash pattern to your polygon style; different than the polygon strips which are continuous. Mentioned as the 'polygons-diagonal-dash' block and its [block reference](http://tangrams.github.io/blocks/#polygons-diagonal-dash)
+diagonal_dash: [viewable example](https://mapzen.com/tangram/play/?scene=https://raw.githubusercontent.com/skorasaurus/sc3n3/master/diagonal_dash.yaml##9.5000/41.5491/-81.8595) - Applies a diagonal dash pattern to your polygon style; different than the polygon strips which are continuous. Mentioned as the 'polygons-diagonal-dash' block and its [block reference](http://tangrams.github.io/blocks/#polygons-diagonal-dash)
 
 
-line-dash-example: [viewable example](https://mapzen.com/tangram/play/?scene=https%3A%2F%2FrApply a diagonal dash pattern to the polygon styleaw.githubusercontent.com%2Fskorasaurus%2Fsc3n3%2Fmaster%2Fsimpler-line-dash-example.yaml#11.7500/41.4622/-81.7251)
+line-dash-example: [viewable example](https://mapzen.com/tangram/play/?scene=https%3A%2F%2Fraw.githubusercontent.com%2Fskorasaurus%2Fsc3n3%2Fmaster%2Fsimpler-line-dash-example.yaml#11.7500/41.4622/-81.7251)
 Use dashes for your lines. 
 The [block reference](http://tangrams.github.io/blocks/#lines-dash)
 
