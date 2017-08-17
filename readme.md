@@ -15,7 +15,7 @@ Below are descriptions and direct links to them in Tangram Play as well so you c
 
 Descriptions:
 
-diagonal_dash: [viewable example](https://mapzen.com/tangram/play/?scene=https://raw.githubusercontent.com/skorasaurus/sc3n3/master/diagonal_dash.yaml##9.5000/41.5491/-81.8595) - Applies a diagonal dash pattern to your polygon style; different than the polygon strips which are continuous. Mentioned as the 'polygons-diagonal-dash' block and its [block reference](http://tangrams.github.io/blocks/#polygons-diagonal-dash)
+diagonal_dash: [viewable example](https://mapzen.com/tangram/play/?scene=https://raw.githubusercontent.com/skorasaurus/sc3n3/master/diagonal_dash.yaml#9.5000/41.5491/-81.8595) - Applies a diagonal dash pattern to your polygon style; different than the polygon strips which are continuous. Mentioned as the 'polygons-diagonal-dash' block and its [block reference](http://tangrams.github.io/blocks/#polygons-diagonal-dash)
 
 
 line-dash-example: [viewable example](https://mapzen.com/tangram/play/?scene=https%3A%2F%2Fraw.githubusercontent.com%2Fskorasaurus%2Fsc3n3%2Fmaster%2Fsimpler-line-dash-example.yaml#11.7500/41.4622/-81.7251)
