@@ -1,7 +1,7 @@
 # Author @patriciogv - 2015
 
 import:
-    - default.yaml
+    - https://raw.githubusercontent.com/skorasaurus/sc3n3/master/pericoli/default.yaml
     - https://tangrams.github.io/blocks/color/tools.yaml
     - https://tangrams.github.io/blocks/generative/noise.yaml
     - https://tangrams.github.io/blocks/geometry/normal.yaml
@@ -11,13 +11,13 @@ import:
 
 textures:
     hatch_0: 
-        url: imgs/hatch_0.png
+        url: https://raw.githubusercontent.com/skorasaurus/sc3n3/master/pericoli/hatch_0.png
     hatch_1: 
-        url: imgs/hatch_1.png
-    hatch_2: 
-        url: imgs/hatch_2.png
+        url: https://raw.githubusercontent.com/skorasaurus/sc3n3/master/pericoli/hatch_1.png
+    hatch_2:
+        url: https://raw.githubusercontent.com/skorasaurus/sc3n3/master/pericoli/hatch_2.png
     sem:
-        url: imgs/sem-pericoli.png
+        url: https://raw.githubusercontent.com/skorasaurus/sc3n3/master/pericoli/sem-pericoli.png
 
 scene:
     background:
