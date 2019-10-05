@@ -25,15 +25,15 @@ fonts:
 
 
 sources:
-    mapzen:
+    nextzen:
         type: TopoJSON
-        url: https://tile.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.topojson
+        url: https://tile.nextzen.org/tilezen/vector/v1/all/{z}/{x}/{y}.topojson
         url_params: 
-            api_key: mapzen-Pjac2MJ
+            api_key: EAsp9j9zTAuqE8eBmzdgSA
 layers:
     _boundaries:
         data:
-            source: mapzen
+            source: nextzen
             layer: boundaries
         _countries:
             filter:
@@ -67,7 +67,7 @@ layers:
                     width: 1.5px
     _countryLabels:
         data:
-            source: mapzen
+            source: nextzen
             layer: places
         _countryLabels:
              filter:
@@ -146,7 +146,7 @@ layers:
                          order: 7
     _landuseLayer:
         data:
-            source: mapzen
+            source: nextzen
             layer: landuse
         _forest:
             filter: { kind: forest }
@@ -180,7 +180,7 @@ layers:
                     color: [0.800,0.800,0.792,1.0]
     _citiesLayer:
         data:
-            source: mapzen
+            source: nextzen
             layer: places
         _capitals:
             filter: { country_capital: true, kind: locality, $zoom: { min: 4 }  }
@@ -241,13 +241,13 @@ layers:
                             width: 2
 
     water:
-        data: { source: mapzen }
+        data: { source: nextzen }
         draw:
             polygons:
                 order: 2
                 color: '#1E24F0'
     earth:
-        data: { source: mapzen }
+        data: { source: nextzen }
         draw:
             gridstyle:
                 order: 1
@@ -255,13 +255,13 @@ layers:
                 
                 
     # landuse:
-    #     data: { source: mapzen }
+    #     data: { source: nextzen }
     #     draw:
     #         polygons:
     #             order: 3
     #             color: '#208c71'
     roads:
-        data: { source: mapzen}
+        data: { source: nextzen}
         filter: { not: { kind: [rail, ferry] } }
         draw:
             roadcasingstyle:
@@ -313,7 +313,7 @@ layers:
                 roads:
                     order: 6
     buildings:
-        data: { source: mapzen }
+        data: { source: nextzen }
         draw:
             polygons:
                 order: 2
